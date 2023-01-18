@@ -8,5 +8,6 @@ TEST_CASE("GildedRoseUnitTest", "Foo")
     items.push_back(Item("Foo", 0, 0));
     GildedRose app(items);
     app.updateQuality();
-    REQUIRE("fixme" == app.items[0].name);
+    REQUIRE("Foo" == app.items[0].name);
 }
+
