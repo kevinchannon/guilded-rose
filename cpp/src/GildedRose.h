@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <compare>
 
 using namespace std;
 
@@ -25,7 +26,9 @@ public:
 namespace guilded_rose {
   struct Item {
     int quality;
-  };
+
+    constexpr auto operator<=>(const Item&) const noexcept = default;
+   };
 
   using Items = std::vector<Item>;
 

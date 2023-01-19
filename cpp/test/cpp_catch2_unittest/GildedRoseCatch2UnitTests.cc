@@ -14,11 +14,25 @@ TEST_CASE("GildedRoseUnitTest", "Foo")
 TEST_CASE("update_quality tests") {
   namespace gr = guilded_rose;
 
-  SECTION("reduces the quality of an item by one") {
-    REQUIRE(9 == gr::update_quality(gr::Item{10}).quality);
+  SECTION("single item") {
+    SECTION("reduces the quality of a regular item by one") {
+      REQUIRE(9 == gr::update_quality(gr::Item{ 10 }).quality);
+    }
+
+    SECTION("quality is not reduced if it's already zero") {
+      REQUIRE(0 == gr::update_quality(gr::Item{ 0 }).quality);
+    }
   }
   
-  SECTION("reduce the qulity of multiple items returns the same number of items as the input") {
-    REQUIRE(3 == gr::update_quality({ { 10 }, {9}, {8} }).size());
+  SECTION("multiple items") {
+    SECTION("update the quality of multiple items") {
+      SECTION("returns the same number of items as the input") {
+        REQUIRE(3 == gr::update_quality({ { 10 }, {9}, {8} }).size());
+      }
+
+      SECTION("updates each item") {
+        REQUIRE(gr::Items{ {9}, {8}, {7} } == gr::update_quality({ {10}, {9}, {8} }));
+      }
+    }
   }
 }

@@ -1,5 +1,7 @@
 #include "GildedRose.h"
 
+#include <algorithm>
+
 GildedRose::GildedRose(vector<Item> & items) : items(items)
 {}
     
@@ -83,12 +85,16 @@ namespace guilded_rose {
 
   Items update_quality(Items items)
   {
+    std::ranges::transform(items, items.begin(), [](auto&& item) {return update_quality(std::move(item)); });
     return items;
   }
 
   Item update_quality(Item item)
   {
-    --item.quality;
+    if (--item.quality < 0) {
+      item.quality = 0;
+    }
+
     return item;
   }
 
