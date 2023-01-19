@@ -2,7 +2,7 @@ set(TEST_NAME GildedRoseCatch2ApprovalTests)
 add_executable(${TEST_NAME})
 target_sources(${TEST_NAME} PRIVATE GildedRoseCatch2ApprovalTests.cc)
 target_link_libraries(${TEST_NAME} lib src)
-set_property(TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 20)
 add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
 
 # Set compiler option /FC for Visual Studio to to make the __FILE__ macro expand to full path. 

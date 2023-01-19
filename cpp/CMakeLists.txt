@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 project(gilded-rose-refactoring-kata-cpp)
+set(CMAKE_CXX_STANDARD 20)
 
 # Load FetchContent module.
 include(FetchContent)
