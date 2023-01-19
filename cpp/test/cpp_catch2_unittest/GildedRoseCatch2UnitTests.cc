@@ -4,11 +4,11 @@
 
 TEST_CASE("GildedRoseUnitTest", "Foo")
 {
-    vector<Item> items;
-    items.push_back(Item("Foo", 0, 0));
-    GildedRose app(items);
-    app.updateQuality();
-    REQUIRE("Foo" == app.items[0].name);
+  vector<Item> items;
+  items.push_back(Item("Foo", 0, 0));
+  GildedRose app(items);
+  app.updateQuality();
+  REQUIRE("Foo" == app.items[0].name);
 }
 
 TEST_CASE("update_quality tests") {
@@ -22,12 +22,16 @@ TEST_CASE("update_quality tests") {
     SECTION("quality is not reduced if it's already zero") {
       REQUIRE(0 == gr::update_quality(gr::Item{ 0 }).quality);
     }
+
+    SECTION("quality reduces by 2 if sell_in has passed") {
+      REQUIRE(8 == gr::update_quality(gr::Item{ 10, -1 }).quality);
+    }
   }
-  
+
   SECTION("multiple items") {
     SECTION("update the quality of multiple items") {
       SECTION("returns the same number of items as the input") {
-        REQUIRE(3 == gr::update_quality({ { 10 }, {9}, {8} }).size());
+        REQUIRE(3 == gr::update_quality({ {10}, {9}, {8} }).size());
       }
 
       SECTION("updates each item") {

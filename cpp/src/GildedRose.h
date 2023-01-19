@@ -26,6 +26,7 @@ public:
 namespace guilded_rose {
   struct Item {
     int quality;
+    int sell_in;
 
     constexpr auto operator<=>(const Item&) const noexcept = default;
    };

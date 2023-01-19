@@ -91,7 +91,8 @@ namespace guilded_rose {
 
   Item update_quality(Item item)
   {
-    if (--item.quality < 0) {
+    item.quality -= item.sell_in < 0 ? 2 : 1;
+    if (item.quality < 0) {
       item.quality = 0;
     }
 
