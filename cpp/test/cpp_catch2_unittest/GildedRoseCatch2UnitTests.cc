@@ -11,3 +11,11 @@ TEST_CASE("GildedRoseUnitTest", "Foo")
     REQUIRE("Foo" == app.items[0].name);
 }
 
+TEST_CASE("update_quality tests") {
+  namespace gr = guilded_rose;
+
+  SECTION("reduces the quality of an item by one") {
+    REQUIRE(9 == gr::update_quality(gr::Item{10}).quality);
+  }
+  
+}

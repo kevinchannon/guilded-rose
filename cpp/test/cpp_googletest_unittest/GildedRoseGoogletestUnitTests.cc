@@ -6,5 +6,5 @@ TEST(GildedRoseTest, Foo) {
     items.push_back(Item("Foo", 0, 0));
     GildedRose app(items);
     app.updateQuality();
-    EXPECT_EQ("fixme", app.items[0].name);
+    EXPECT_EQ("Foo", app.items[0].name);
 }

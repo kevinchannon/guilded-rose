@@ -22,3 +22,10 @@ public:
     void updateQuality();
 };
 
+namespace guilded_rose {
+  struct Item {
+    int quality;
+  };
+
+  Item update_quality(Item item);
+}
