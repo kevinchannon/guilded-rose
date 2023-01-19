@@ -91,12 +91,8 @@ namespace guilded_rose {
 
   Item update_quality(Item item)
   {
-    item.quality -= item.sell_in < 0 ? 2 : 1;
-    if (item.quality < 0) {
-      item.quality = 0;
-    }
-
-    return item;
+    const auto reduction = item.sell_in < 0 ? 2 : 1;
+    return {std::max(0, item.quality - reduction), --item.sell_in };
   }
 
 }

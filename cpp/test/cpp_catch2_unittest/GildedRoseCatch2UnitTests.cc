@@ -35,7 +35,7 @@ TEST_CASE("update_quality tests") {
       }
 
       SECTION("updates each item") {
-        REQUIRE(gr::Items{ {9}, {8}, {7} } == gr::update_quality({ {10}, {9}, {8} }));
+        REQUIRE(gr::Items{ {9, -1}, {8, -1}, {7, -1} } == gr::update_quality({ {10}, {9}, {8} }));
       }
     }
   }
