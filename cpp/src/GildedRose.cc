@@ -80,6 +80,12 @@ void GildedRose::updateQuality()
 }
 
 namespace guilded_rose {
+
+  Items update_quality(Items items)
+  {
+    return items;
+  }
+
   Item update_quality(Item item)
   {
     --item.quality;

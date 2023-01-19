@@ -27,5 +27,8 @@ namespace guilded_rose {
     int quality;
   };
 
+  using Items = std::vector<Item>;
+
+  Items update_quality(Items items);
   Item update_quality(Item item);
 }

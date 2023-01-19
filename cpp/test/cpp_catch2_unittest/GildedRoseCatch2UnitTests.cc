@@ -18,4 +18,7 @@ TEST_CASE("update_quality tests") {
     REQUIRE(9 == gr::update_quality(gr::Item{10}).quality);
   }
   
+  SECTION("reduce the qulity of multiple items returns the same number of items as the input") {
+    REQUIRE(3 == gr::update_quality({ { 10 }, {9}, {8} }).size());
+  }
 }
