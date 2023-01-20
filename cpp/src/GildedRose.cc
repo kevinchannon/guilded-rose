@@ -91,8 +91,8 @@ namespace guilded_rose {
 
   Item update_quality(Item item)
   {
-    const auto reduction = item.sell_in < 0 ? 2 : 1;
-    return {std::max(0, item.quality - reduction), --item.sell_in };
+    const auto reduction = item.sellIn < 0 ? 2 : 1;
+    return {std::move(item.name), --item.sellIn, std::max(0, item.quality - reduction) };
   }
 
 }

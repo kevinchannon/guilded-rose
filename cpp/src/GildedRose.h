@@ -23,14 +23,23 @@ public:
     void updateQuality();
 };
 
+constexpr bool operator==(const Item& left, const Item& right) noexcept {
+  if (left.name != right.name) {
+    return false;
+  }
+
+  if (left.quality != right.quality) {
+    return false;
+  }
+
+  if (left.sellIn != right.sellIn) {
+    return false;
+  }
+
+  return true;
+}
+
 namespace guilded_rose {
-  struct Item {
-    int quality;
-    int sell_in;
-
-    constexpr auto operator<=>(const Item&) const noexcept = default;
-   };
-
   using Items = std::vector<Item>;
 
   Items update_quality(Items items);
