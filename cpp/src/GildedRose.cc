@@ -91,6 +91,10 @@ namespace guilded_rose {
 
   Item update_quality(Item item)
   {
+    if (item.name == "Aged Brie") {
+      return { std::move(item.name), --item.sellIn, item.quality + 1 };
+    }
+
     const auto reduction = item.sellIn < 0 ? 2 : 1;
     return {std::move(item.name), --item.sellIn, std::max(0, item.quality - reduction) };
   }

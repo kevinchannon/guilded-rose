@@ -51,6 +51,10 @@ TEST_CASE("update_quality tests") {
     SECTION("quality reduces by 2 if sell_in has passed") {
       REQUIRE(8 == gr::update_quality(Item{ "foo", -1, 10 }).quality);
     }
+
+    SECTION("Aged Brie increases in quality") {
+      REQUIRE(11 == gr::update_quality(Item{ "Aged Brie", 0, 10 }).quality);
+    }
   }
 
   SECTION("multiple items") {
