@@ -84,13 +84,12 @@ impl GildedRose {
     }
 }
 
-fn update_item_quality(mut item: Item) -> Item {
-    item.quality = (item.quality - 1).max(0);
-    return item;
+fn update_item_quality(item: &Item) -> Item {
+    Item::new(item.name.clone(), item.sell_in, (item.quality - 1).max(0))
 }
 
 fn update_quality(items: Vec<Item>) -> Vec<Item> {
-    return items.iter().map(|x| { update_item_quality(Item::new(x.name.clone(), x.sell_in, x.quality))}).collect();
+    return items.iter().map(|x| { update_item_quality(&x)}).collect();
 }
 
 #[cfg(test)]
@@ -107,12 +106,14 @@ mod tests {
 
     #[test]
     fn update_item_quality_reduces_quality_of_regular_item_by_one(){
-        assert_eq!(9, update_item_quality(Item::new("foo", 10, 10)).quality);
+        let item = Item::new("foo", 10, 10);
+        assert_eq!(9, update_item_quality(&item).quality);
     }
 
     #[test]
     fn update_item_quality_does_not_reduce_quality_below_zero() {
-        assert_eq!(0, update_item_quality(Item::new("foo", 10, 0)).quality);
+        let item = Item::new("foo", 10, 0);
+        assert_eq!(0, update_item_quality(&item).quality);
     }
 
     #[test]
