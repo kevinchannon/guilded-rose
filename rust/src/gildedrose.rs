@@ -85,7 +85,7 @@ impl GildedRose {
 }
 
 fn update_item_quality(mut item: Item) -> Item {
-    item.quality = item.quality - 1;
+    item.quality = (item.quality - 1).max(0);
     return item;
 }
 
@@ -98,9 +98,21 @@ mod tests {
     use super::*;
 
     #[test]
-    fn update_quality_reduces_quality_of_regular_item_by_one(){
-        let items = vec![Item::new("foo", 10, 10)];
-        assert_eq!(9, update_quality(items)[0].quality);
+    fn update_quality_reduces_quality_of_all_regular_item_by_one(){
+        let items = update_quality(vec![Item::new("foo", 10, 10), Item::new("bar", 10, 10)]);
+
+        assert_eq!(9, items[0].quality);
+        assert_eq!(9, items[1].quality);
+    }
+
+    #[test]
+    fn update_item_quality_reduces_quality_of_regular_item_by_one(){
+        assert_eq!(9, update_item_quality(Item::new("foo", 10, 10)).quality);
+    }
+
+    #[test]
+    fn update_item_quality_does_not_reduce_quality_below_zero() {
+        assert_eq!(0, update_item_quality(Item::new("foo", 10, 0)).quality);
     }
 
     #[test]
