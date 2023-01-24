@@ -85,7 +85,11 @@ impl GildedRose {
 }
 
 fn update_item_quality(item: &Item) -> Item {
-    Item::new(item.name.clone(), item.sell_in, (item.quality - 1).max(0))
+    Item::new(
+        item.name.clone(),
+        item.sell_in - 1,
+        (item.quality - 1).max(0)
+    )
 }
 
 pub fn update_quality(items: Vec<Item>) -> Vec<Item> {
@@ -114,6 +118,12 @@ mod tests {
     fn update_item_quality_does_not_reduce_quality_below_zero() {
         let item = Item::new("foo", 10, 0);
         assert_eq!(0, update_item_quality(&item).quality);
+    }
+
+    #[test]
+    fn update_item_quality_reduces_sell_in() {
+        let item = Item::new("foo", 10, 0);
+        assert_eq!(9, update_item_quality(&item).sell_in);
     }
 
     #[test]
