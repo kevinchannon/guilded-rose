@@ -88,7 +88,7 @@ fn update_item_quality(item: &Item) -> Item {
     Item::new(item.name.clone(), item.sell_in, (item.quality - 1).max(0))
 }
 
-fn update_quality(items: Vec<Item>) -> Vec<Item> {
+pub fn update_quality(items: Vec<Item>) -> Vec<Item> {
     return items.iter().map(|x| { update_item_quality(&x)}).collect();
 }
 
