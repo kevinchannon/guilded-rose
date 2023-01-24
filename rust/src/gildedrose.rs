@@ -84,9 +84,24 @@ impl GildedRose {
     }
 }
 
+fn update_item_quality(mut item: Item) -> Item {
+    item.quality = item.quality - 1;
+    return item;
+}
+
+fn update_quality(items: Vec<Item>) -> Vec<Item> {
+    return items.iter().map(|x| { update_item_quality(Item::new(x.name.clone(), x.sell_in, x.quality))}).collect();
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{GildedRose, Item};
+    use super::*;
+
+    #[test]
+    fn update_quality_reduces_quality_of_regular_item_by_one(){
+        let items = vec![Item::new("foo", 10, 10)];
+        assert_eq!(9, update_quality(items)[0].quality);
+    }
 
     #[test]
     pub fn foo() {
@@ -94,6 +109,6 @@ mod tests {
         let mut rose = GildedRose::new(items);
         rose.update_quality();
 
-        assert_eq!("fixme", rose.items[0].name);
+        assert_eq!("foo", rose.items[0].name);
     }
 }
