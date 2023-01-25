@@ -84,15 +84,19 @@ impl GildedRose {
     }
 }
 
-fn quality_reduction(sell_in: i32) -> i32 {
-    if sell_in > 0 { 1 } else { 2 }
+fn calculate_new_quality(item: &Item) -> i32 {
+    if item.name == "Aged Brie" {
+        return item.quality + 1;
+    } else {
+        return (if item.sell_in > 0 { item.quality - 1 } else { item.quality - 2 }).max(0);
+    }
 }
 
 fn update_item_quality(item: &Item) -> Item {
     Item::new(
         item.name.clone(),
         item.sell_in - 1,
-        (item.quality - quality_reduction(item.sell_in)).max(0)
+        calculate_new_quality(&item)
     )
 }
 
@@ -141,6 +145,12 @@ mod tests {
         let normal_quality_reduction = initial_quality - first_quality;assert_eq!(1, normal_quality_reduction);
 
         assert_eq!(2 * normal_quality_reduction, first_quality - update_item_quality(&item).quality);
+    }
+
+    #[test]
+    fn aged_brie_increases_in_quality() {
+        let item = Item::new("Aged Brie", 10, 10);
+        assert_eq!(11, update_item_quality(&item).quality);
     }
 
     #[test]
