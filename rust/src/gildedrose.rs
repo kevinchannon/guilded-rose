@@ -89,20 +89,18 @@ fn push_quality_into_range(quality: i32) -> i32 {
 }
 
 fn calculate_new_quality(item: &Item) -> i32 {
-    if item.name == "Aged Brie" {
-        item.quality + 1
-    } else if item.name.contains("ackstage pass") {
-        if item.sell_in > 10 {
-            item.quality + 1
-        } else if item.sell_in > 5 {
-            item.quality + 2
-        } else if item.sell_in >= 0 {
-            item.quality + 3
-        } else {
-            0
-        }
-    } else {
-        if item.sell_in > 0 { item.quality - 1 } else { item.quality - 2 }
+    match item.name.as_str() {
+        "Aged Brie" => {item.quality + 1},
+        ref name if name.contains("ackstage pass") => {
+            match item.sell_in {
+                t if t > 10 => {item.quality + 1},
+                t if t <= 10 && t > 5 => {item.quality + 2},
+                t if t <= 5 && t >= 0 => {item.quality + 3},
+                t if t < 0 => {0},
+                _ => {item.quality}
+            }
+        },
+        _ => {if item.sell_in > 0 { item.quality - 1 } else { item.quality - 2 }}
     }
 }
 
