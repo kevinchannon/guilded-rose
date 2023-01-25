@@ -91,6 +91,8 @@ fn push_quality_into_range(quality: i32) -> i32 {
 fn calculate_new_quality(item: &Item) -> i32 {
     if item.name == "Aged Brie" {
         item.quality + 1
+    } else if item.name.contains("ackstage pass") {
+        item.quality + 1
     } else {
         if item.sell_in > 0 { item.quality - 1 } else { item.quality - 2 }
     }
@@ -161,6 +163,12 @@ mod tests {
     fn update_item_quality_doesnt_increase_quality_above_50() {
         let item = Item::new("Aged Brie", 10, 50);
         assert_eq!(50, update_item_quality(&item).quality);
+    }
+
+    #[test]
+    fn backstage_passes_increase_in_quality_by_one_when_11_days_from_expiry(){
+        let item = Item::new("Some Backstage pass to a thing", 11, 10);
+        assert_eq!(11, update_item_quality(&item).quality);
     }
 
     #[test]
