@@ -84,11 +84,15 @@ impl GildedRose {
     }
 }
 
+fn quality_reduction(sell_in: i32) -> i32 {
+    if sell_in > 0 { 1 } else { 2 }
+}
+
 fn update_item_quality(item: &Item) -> Item {
     Item::new(
         item.name.clone(),
         item.sell_in - 1,
-        (item.quality - 1).max(0)
+        (item.quality - quality_reduction(item.sell_in)).max(0)
     )
 }
 
@@ -121,9 +125,22 @@ mod tests {
     }
 
     #[test]
-    fn update_item_quality_reduces_sell_in() {
+    fn update_item_quality_reduces_sell_in_by_one() {
         let item = Item::new("foo", 10, 0);
         assert_eq!(9, update_item_quality(&item).sell_in);
+    }
+
+    #[test]
+    fn update_item_quality_reduces_quality_of_regular_items_twice_as_fast_after_expiry() {
+        let initial_quality = 10;
+        let mut item = Item::new("foo", 1, initial_quality);
+
+        item = update_item_quality(&item);
+        let first_quality = item.quality;
+
+        let normal_quality_reduction = initial_quality - first_quality;assert_eq!(1, normal_quality_reduction);
+
+        assert_eq!(2 * normal_quality_reduction, first_quality - update_item_quality(&item).quality);
     }
 
     #[test]
