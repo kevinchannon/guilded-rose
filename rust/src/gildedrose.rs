@@ -84,11 +84,15 @@ impl GildedRose {
     }
 }
 
+fn push_quality_into_range(quality: i32) -> i32 {
+    quality.min(50).max(0)
+}
+
 fn calculate_new_quality(item: &Item) -> i32 {
     if item.name == "Aged Brie" {
-        return item.quality + 1;
+        item.quality + 1
     } else {
-        return (if item.sell_in > 0 { item.quality - 1 } else { item.quality - 2 }).max(0);
+        if item.sell_in > 0 { item.quality - 1 } else { item.quality - 2 }
     }
 }
 
@@ -96,7 +100,7 @@ fn update_item_quality(item: &Item) -> Item {
     Item::new(
         item.name.clone(),
         item.sell_in - 1,
-        calculate_new_quality(&item)
+        push_quality_into_range(calculate_new_quality(&item))
     )
 }
 
@@ -151,6 +155,12 @@ mod tests {
     fn aged_brie_increases_in_quality() {
         let item = Item::new("Aged Brie", 10, 10);
         assert_eq!(11, update_item_quality(&item).quality);
+    }
+
+    #[test]
+    fn update_item_quality_doesnt_increase_quality_above_50() {
+        let item = Item::new("Aged Brie", 10, 50);
+        assert_eq!(50, update_item_quality(&item).quality);
     }
 
     #[test]
