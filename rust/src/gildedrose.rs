@@ -92,7 +92,11 @@ fn calculate_new_quality(item: &Item) -> i32 {
     if item.name == "Aged Brie" {
         item.quality + 1
     } else if item.name.contains("ackstage pass") {
-        item.quality + 1
+        if item.sell_in > 10 {
+            item.quality + 1
+        } else {
+            item.quality + 2
+        }
     } else {
         if item.sell_in > 0 { item.quality - 1 } else { item.quality - 2 }
     }
@@ -166,9 +170,30 @@ mod tests {
     }
 
     #[test]
-    fn backstage_passes_increase_in_quality_by_one_when_11_days_from_expiry(){
+    fn backstage_passes_increase_in_quality_by_1_when_11_days_from_expiry(){
         let item = Item::new("Some Backstage pass to a thing", 11, 10);
         assert_eq!(11, update_item_quality(&item).quality);
+    }
+
+    #[test]
+    fn backstage_passes_increase_in_quality_by_2_when_6_to_10_days_from_expiry(){
+        let mut item = Item::new("Some Backstage pass to a thing", 10, 10);
+
+        item = update_item_quality(&item);
+        assert_eq!(9, item.sell_in);
+        assert_eq!(12, item.quality);
+        
+        item = update_item_quality(&item);
+        assert_eq!(8, item.sell_in);
+        assert_eq!(14, item.quality);
+        
+        item = update_item_quality(&item);
+        assert_eq!(7, item.sell_in);
+        assert_eq!(16, item.quality);
+        
+        item = update_item_quality(&item);
+        assert_eq!(6, item.sell_in);
+        assert_eq!(18, item.quality);
     }
 
     #[test]
